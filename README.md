@@ -2,6 +2,37 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
+### Environment Variables
+
+Before running the app, you need to create a `.env.local` file in the root directory with the following variables:
+
+```bash
+# NextAuth Configuration
+NEXTAUTH_SECRET=your-secret-key-here
+NEXTAUTH_URL=http://localhost:3000
+
+# Google OAuth
+GOOGLE_CLIENT_ID=your-google-client-id-here
+GOOGLE_CLIENT_SECRET=your-google-client-secret-here
+
+# MongoDB (if using MongoDB Atlas)
+MONGODB_URI=your-mongodb-connection-string-here
+```
+
+**To get Google OAuth credentials:**
+1. Go to [Google Cloud Console](https://console.cloud.google.com/)
+2. Create a new project or select existing one
+3. Enable Google+ API
+4. Go to Credentials → Create Credentials → OAuth 2.0 Client IDs
+5. Set authorized redirect URI: `http://localhost:3000/api/auth/callback/google`
+
+**To generate NEXTAUTH_SECRET:**
+```bash
+openssl rand -base64 32
+```
+
+### Running the App
+
 First, run the development server:
 
 ```bash
