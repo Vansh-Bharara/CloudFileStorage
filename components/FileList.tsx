@@ -18,6 +18,7 @@ export default function FileList() {
   async function fetchFiles() {
     setLoading(true);
     const res = await fetch("/api/files/list");
+    console.log(res)
     if (res.ok) {
       const data = await res.json();
       setFiles(data);
