@@ -10,7 +10,7 @@ export async function POST(req: Request) {
 
   const { filename, contentType } = await req.json();
 
-  // sanitize filename & create unique key
+  // sanitize filename & create unique key, this regex removes whitespaces
   const safeName = filename.replace(/\s+/g, "_");
   const key = `uploads/${session.user?.email}/${Date.now()}_${safeName}`;
 

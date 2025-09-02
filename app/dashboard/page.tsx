@@ -1,8 +1,10 @@
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 import { authOptions } from "../../lib/auth";
 import Navbar from "@/components/Navbar";
+import FileList from "@/components/FileList";
 
 export default async function DashboardPage() {
   const session = await getServerSession(authOptions);
@@ -24,9 +26,6 @@ export default async function DashboardPage() {
             >
               ← Go Back
             </a>
-            <button className="px-4 py-2 text-sm font-medium bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition-all duration-200">
-              Upload File
-            </button>
           </div>
         </div>
       </header>
@@ -54,17 +53,16 @@ export default async function DashboardPage() {
 
         {/* Files Section */}
         <div className="bg-white/80 backdrop-blur-md rounded-2xl shadow-lg p-6 border border-gray-100">
-          <div className="flex justify-between items-center mb-4">
-            <h3 className="text-lg font-semibold text-gray-900">
-              Your Files
-            </h3>
-            <button className="px-3 py-1 text-sm font-medium bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition">
-              View All
-            </button>
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg font-semibold text-gray-900">Your Files</h3>
+            <Link
+              href="/upload"
+              className="px-4 py-2 text-sm font-medium bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition-all duration-200"
+            >
+              Upload File
+            </Link>
           </div>
-          <div className="text-gray-500">
-            File upload feature coming soon...
-          </div>
+          <FileList/>
         </div>
       </div>
     </main>
