@@ -4,6 +4,7 @@ import Link from "next/link";
 import { authOptions } from "../../lib/auth";
 import Navbar from "@/components/Navbar";
 import FileUpload from "@/components/FileUpload";
+import DragDropZone from "@/components/DragDropZone";
 
 export default async function UploadPage() {
   const session = await getServerSession(authOptions);
@@ -30,13 +31,20 @@ export default async function UploadPage() {
         </div>
 
         {/* Upload Section */}
-        <div className="bg-white/80 backdrop-blur-md rounded-2xl shadow-lg p-8 border border-gray-100">
+        <div className="bg-white/80 backdrop-blur-md rounded-2xl shadow-lg p-8 border border-gray-100 mb-8">
           <div className="mb-6">
             <h1 className="text-2xl font-semibold text-gray-900 mb-2">Upload File</h1>
             <p className="text-gray-600">Choose a file to upload to your cloud storage.</p>
           </div>
           
           <FileUpload />
+        </div>
+        <div className="bg-white/80 backdrop-blur-md rounded-2xl shadow-lg p-8 border border-gray-100">
+          <div className="mb-6">
+            <h1 className="text-2xl font-semibold text-gray-900 mb-2">Drag and Drop Zone</h1>
+            <p className="text-gray-600">Choose a file to upload to your cloud storage.</p>
+          </div>
+          <DragDropZone/>
         </div>
       </div>
     </main>

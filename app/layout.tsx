@@ -1,3 +1,4 @@
+import { Toaster } from "sonner";
 import "./globals.css";
 import Providers from "./providers";
 import type { Metadata } from "next";
@@ -12,6 +13,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body>
         <Providers>{children}</Providers>
+        <Toaster/>
       </body>
     </html>
   );
