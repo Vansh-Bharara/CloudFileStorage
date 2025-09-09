@@ -2,6 +2,7 @@
 "use client";
 
 import { useState, useRef } from "react";
+import { toast } from "sonner";
 
 export default function FileUpload({ onUploaded }: { onUploaded?: () => void }) {
   const [uploading, setUploading] = useState(false);
@@ -68,6 +69,7 @@ export default function FileUpload({ onUploaded }: { onUploaded?: () => void }) 
       setProgress(100);
       if (onUploaded) onUploaded();
       setUploaded(true);
+      toast("File uploaded successfully !")
     } catch (err: any) {
       alert("Upload error: " + (err?.message || err));
     } finally {
