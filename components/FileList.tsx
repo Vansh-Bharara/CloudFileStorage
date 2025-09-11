@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
+import { toast } from "sonner";
 
 type FileItem = {
   id: string;
@@ -14,23 +15,42 @@ type FileItem = {
 export default function FileList() {
   const [files, setFiles] = useState<FileItem[]>([]);
   const [loading, setLoading] = useState(false);
+  const [query, setQuery] = useState('')
 
   async function fetchFiles() {
-    setLoading(true);
-    const res = await fetch("/api/files/list");
-    console.log(res)
-    if (res.ok) {
-      const data = await res.json();
-      setFiles(data);
-    } else {
-      console.error("Failed to fetch files");
+    try {
+      setLoading(true);
+      const endpoint = query ? `/api/files/search?q=${query}` : "/api/files/list"
+      const res = await fetch(endpoint)
+      if (!res.ok) throw new Error("Failed to fetch files")
+      const data = await res.json()
+      setFiles(data)
     }
-    setLoading(false);
+    catch(err){
+      console.error(err)
+      setFiles([])
+    }
+    finally{
+      setLoading(false)
+    }
+  }
+
+  const onQueryChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setQuery(e?.target?.value)
   }
 
   useEffect(() => {
-    fetchFiles();
-  }, []);
+
+    if(!query){
+      fetchFiles()
+      return;
+    }
+    const timeout = setTimeout(fetchFiles, 500)
+
+    return () => {
+      clearTimeout(timeout)
+    }
+  }, [query]);
 
   async function handleDownload(id: string) {
     const res = await fetch(`/api/files/download/${id}`);
@@ -48,6 +68,7 @@ export default function FileList() {
     const res = await fetch(`/api/files/delete/${id}`, { method: "DELETE" });
     if (res.ok) {
       setFiles(f => f.filter(x => x.id !== id));
+      toast("File deleted successfully !")
     } else {
       alert("Failed to delete");
     }
@@ -60,13 +81,17 @@ export default function FileList() {
   );
 
   if (!files.length) return (
-    <div className="bg-white/80 backdrop-blur-md rounded-2xl border border-gray-100 p-6 text-gray-500">
-      No files yet.
-    </div>
+    <>
+      <input type="text" placeholder="search" className="px-3 py-2 w-64 text-sm text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 mb-2" onChange={onQueryChange} value={query} />
+      <div className="bg-white/80 backdrop-blur-md rounded-2xl border border-gray-100 p-6 text-gray-500">
+        No files yet.
+      </div>
+    </>
   );
 
   return (
-    <div className="bg-white/80 backdrop-blur-md rounded-2xl border border-gray-100 overflow-hidden">
+    <div className="bg-white/80 backdrop-blur-md rounded-2xl border border-gray-100 overflow-hidden mt-4 py-2 px-3">
+      <input type="text" placeholder="search" className="px-3 py-2 w-64 text-sm text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 mb-2" onChange={onQueryChange} value={query} />
       <div className="divide-y divide-gray-100">
         {files.map((f) => (
           <div key={f.id} className="grid grid-cols-12 items-center px-4 py-3 hover:bg-gray-50 transition">

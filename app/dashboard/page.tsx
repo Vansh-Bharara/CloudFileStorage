@@ -16,12 +16,12 @@ export default async function DashboardPage() {
   return (
     <main className="min-h-screen bg-gradient-to-b from-blue-50 via-white to-white">
       {/* Header */}
-      <Navbar user={session.user}/>
+      <Navbar user={session.user} />
       <header className="bg-white/70 backdrop-blur-md border-none sticky top-0 z-50">
         <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
           <div className="flex items-center space-x-3">
-            <a 
-              href="/" 
+            <a
+              href="/"
               className="px-4 py-2 text-sm font-medium bg-gray-600 text-white rounded-lg shadow hover:bg-gray-700 transition-all duration-200"
             >
               ← Go Back
@@ -57,12 +57,11 @@ export default async function DashboardPage() {
             <h3 className="text-lg font-semibold text-gray-900">Your Files</h3>
             <Link
               href="/upload"
-              className="px-4 py-2 text-sm font-medium bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition-all duration-200"
-            >
+              className="px-4 py-2 text-sm font-medium bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition-all duration-200">
               Upload File
             </Link>
           </div>
-          <FileList/>
+          <FileList />
         </div>
       </div>
     </main>
